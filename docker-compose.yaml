@@ -23,3 +23,5 @@ services:
       ENV: docker
     ports:
       - "8930:8080"
+    expose:
+      - 8930
