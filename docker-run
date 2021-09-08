@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+case $1 in
+up)
+  ./gradlew clean
+  ./gradlew build
+
+  docker build -t students-api-1.0:latest -f docker/Dockerfile .
+
+  docker compose up
+  ;;
+down)
+  docker compose down
+  ;;
+esac

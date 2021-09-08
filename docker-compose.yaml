@@ -13,3 +13,13 @@ services:
       - "6652:5432"
     expose:
       - 6652
+
+  students-api:
+    depends_on:
+      - students-api-db
+    image: students-api-1.0:latest
+    container_name: students-api-1.0
+    environment:
+      ENV: docker
+    ports:
+      - "8930:8080"
