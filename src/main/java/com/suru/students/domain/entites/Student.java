@@ -77,6 +77,7 @@ public class Student {
     public StudentResponse toDto() {
         StudentResponse studentResponse = new StudentResponse();
         studentResponse.setId(this.getId());
+        studentResponse.setName(this.getName());
         studentResponse.setBranch(this.getBranch());
         studentResponse.setYear(this.getYear());
         studentResponse.setDob(this.getDob());

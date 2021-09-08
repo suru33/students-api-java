@@ -13,11 +13,19 @@ import java.util.UUID;
 @NoArgsConstructor
 public class BranchRequest {
     @NotNull
-    @Size(max = 10)
+    @Size(
+            min = 2,
+            max = 10,
+            message = "Shot name '${validatedValue}' must be between {min} and {max} characters long"
+    )
     private String shortName;
 
     @NotNull
-    @Size(max = 100)
+    @Size(
+            min = 2,
+            max = 100,
+            message = "Name '${validatedValue}' must be between {min} and {max} characters long"
+    )
     private String name;
 
     public Branch toEntity(UUID id) {

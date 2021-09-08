@@ -4,6 +4,7 @@ import com.suru.students.domain.entites.Student;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -14,32 +15,41 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 public class StudentRequest {
-    @NotNull
-    @Size(max = 100)
+    @NotNull(message = "Student name is mandatory")
+    @Size(
+            min = 2,
+            max = 100,
+            message = "Student name '${validatedValue}' must be between {min} and {max} characters long"
+    )
     private String name;
 
-    @NotNull
+    @NotNull(message = "Not a valid branch id")
     private UUID branch;
 
-    @NotNull
-    @Min(1)
-    @Min(4)
+    @NotNull(message = "Year is mandatory")
+    @Min(value = 1, message = "Year should be in (1, 2, 3, 4)")
+    @Max(value = 4, message = "Year should be in (1, 2, 3, 4)")
     private Integer year;
 
-    @NotNull
+    @NotNull(message = "Dob is mandatory")
     private LocalDate dob;
 
-    @NotNull
-    @Size(max = 100)
+    @NotNull(message = "Email is mandatory")
+    @Size(
+            min = 5,
+            max = 100,
+            message = "Email '${validatedValue}' must be between {min} and {max} characters long"
+    )
     private String email;
 
-    @NotNull
-    @Size(max = 20)
+    @NotNull(message = "Phone is mandatory")
+    @Size(max = 20, message = "Phone '${validatedValue}' must be between {min} and {max} characters long")
     private String phone;
 
     public Student toEntity(UUID id) {
         Student student = new Student();
         student.setId(id);
+        student.setName(this.getName());
         student.setBranch(this.getBranch());
         student.setYear(this.getYear());
         student.setDob(this.getDob());
