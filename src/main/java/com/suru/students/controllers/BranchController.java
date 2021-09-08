@@ -4,6 +4,8 @@ import com.suru.students.domain.requests.BranchRequest;
 import com.suru.students.domain.responses.BranchResponse;
 import com.suru.students.exceptions.EntityNotfoundException;
 import com.suru.students.services.BranchService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
@@ -32,6 +34,13 @@ public class BranchController {
     @ResponseStatus(HttpStatus.OK)
     public BranchResponse get(@PathVariable UUID id) throws EntityNotfoundException {
         return service.get(id);
+    }
+
+    @GetMapping("/all")
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    public Page<BranchResponse> getAll(Pageable pageable) {
+        return service.getAll(pageable);
     }
 
     @PostMapping

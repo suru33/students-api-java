@@ -5,13 +5,16 @@ import com.suru.students.domain.entites.Branch;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
 import java.util.UUID;
 
 @Transactional
-public interface BranchRepository extends CrudRepository<Branch, UUID> {
+public interface BranchRepository extends
+        CrudRepository<Branch, UUID>,
+        PagingAndSortingRepository<Branch, UUID> {
 
     @Modifying
     @Query(value = """

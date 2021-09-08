@@ -5,6 +5,8 @@ import com.suru.students.domain.requests.StudentRequest;
 import com.suru.students.domain.responses.StudentResponse;
 import com.suru.students.exceptions.EntityNotfoundException;
 import com.suru.students.repositories.StudentRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -36,5 +38,17 @@ public class StudentService {
             return studentOptional.get().toDto();
         }
         throw new EntityNotfoundException("Student", id);
+    }
+
+    public Page<StudentResponse> getAll(Optional<UUID> branch, Optional<Integer> year, Pageable pageable) {
+        if (branch.isPresent() && year.isPresent()) {
+            return repository.findAllByBranchAndYear(branch.get(), year.get(), pageable).map(Student::toDto);
+        } else if (branch.isPresent()) {
+            return repository.findAllByBranch(branch.get(), pageable).map(Student::toDto);
+        } else if (year.isPresent()) {
+            return repository.findAllByYear(year.get(), pageable).map(Student::toDto);
+        }
+
+        return repository.findAll(pageable).map(Student::toDto);
     }
 }

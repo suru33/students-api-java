@@ -5,6 +5,8 @@ import com.suru.students.domain.requests.BranchRequest;
 import com.suru.students.domain.responses.BranchResponse;
 import com.suru.students.exceptions.EntityNotfoundException;
 import com.suru.students.repositories.BranchRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -25,7 +27,7 @@ public class BranchService {
 
     public void update(UUID id, BranchRequest request) throws EntityNotfoundException {
         int update = repository.update(request.toEntity(id));
-        if(update != 1) {
+        if (update != 1) {
             throw new EntityNotfoundException("Branch", id);
         }
     }
@@ -38,4 +40,7 @@ public class BranchService {
         throw new EntityNotfoundException("Branch", id);
     }
 
+    public Page<BranchResponse> getAll(Pageable pageable) {
+        return repository.findAll(pageable).map(Branch::toDto);
+    }
 }
